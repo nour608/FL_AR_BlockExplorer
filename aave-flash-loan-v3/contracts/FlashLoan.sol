@@ -15,9 +15,6 @@ contract FlashLoan is FlashLoanSimpleReceiverBase {
         owner = payable(msg.sender);
     }
 
-    /**
-        This function is called after your contract has received the flash loaned amount
-     */
     function executeOperation(
         address asset,
         uint256 amount,
@@ -35,7 +32,6 @@ contract FlashLoan is FlashLoanSimpleReceiverBase {
         // Therefore ensure your contract has enough to repay
         // these amounts.
 
-        // Approve the Pool contract allowance to *pull* the owed amount
         uint256 amountOwed = amount + premium;
         IERC20(asset).approve(address(POOL), amountOwed);
 
