@@ -31,9 +31,9 @@ contract FlashLoanArbitrage is FlashLoanSimpleReceiverBase {
     IERC20 private usdc;
     IDex private dexContract;
 
-    constructor(address _addressProvider)
-        FlashLoanSimpleReceiverBase(IPoolAddressesProvider(_addressProvider))
-    {
+    constructor(
+        address _addressProvider
+    ) FlashLoanSimpleReceiverBase(IPoolAddressesProvider(_addressProvider)) {
         owner = payable(msg.sender);
 
         dai = IERC20(daiAddress);

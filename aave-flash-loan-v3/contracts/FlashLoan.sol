@@ -9,12 +9,15 @@ import {IERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contract
 contract FlashLoan is FlashLoanSimpleReceiverBase {
     address payable owner;
 
-    constructor(address _addressProvider)
-        FlashLoanSimpleReceiverBase(IPoolAddressesProvider(_addressProvider))
-    {
+    constructor(
+        address _addressProvider
+    ) FlashLoanSimpleReceiverBase(IPoolAddressesProvider(_addressProvider)) {
         owner = payable(msg.sender);
     }
 
+    /**
+        This function is called after your contract has received the flash loaned amount
+     */
     function executeOperation(
         address asset,
         uint256 amount,
@@ -32,6 +35,7 @@ contract FlashLoan is FlashLoanSimpleReceiverBase {
         // Therefore ensure your contract has enough to repay
         // these amounts.
 
+        // Approve the Pool contract allowance to *pull* the owed amount
         uint256 amountOwed = amount + premium;
         IERC20(asset).approve(address(POOL), amountOwed);
 
@@ -66,7 +70,7 @@ contract FlashLoan is FlashLoanSimpleReceiverBase {
     modifier onlyOwner() {
         require(
             msg.sender == owner,
-            "Only the contract owner can call this function"
+            "only the contract owner can call this function"
         );
         _;
     }
